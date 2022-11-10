@@ -10,15 +10,21 @@ const Cart = props => {
     </ul>
   );
 
+  const closeCartHandler = () => {
+    props.onCloseCart();
+  };
+
   return (
-    <Modal>
+    <Modal onClick={closeCartHandler}>
       {cartItems}
       <div className={classes.total}>
         <span>Total amount</span>
         <span>35.62</span>
       </div>
       <div className={classes.actions}>
-        <button className={classes["button--alt"]}>Close</button>
+        <button className={classes["button--alt"]} onClick={closeCartHandler}>
+          Close
+        </button>
         <button className={classes.button}>Order</button>
       </div>
     </Modal>
