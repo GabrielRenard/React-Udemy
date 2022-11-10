@@ -2,9 +2,11 @@ import classes from "./HeaderCartButton.module.css";
 import CartIcon from "../Cart/CartIcon";
 
 const HeaderCartButton = () => {
+
+  
   return (
     <>
-      <button className={classes.button}>
+      <button className={classes.button} onClick={}>
         <span className={classes.icon}>
           <CartIcon />
         </span>
