@@ -8,6 +8,19 @@ const SimpleInput = props => {
 
   const nameInputHandler = e => {
     setEnteredName(e.target.value); // set entered name on each keystroke
+    if (e.target.value.trim() !== "") {
+      setEnteredNameIsValid(true);
+    } else {
+      setEnteredNameIsValid(false);
+      setEnteredNameTouched(true);
+    }
+  };
+
+  const nameInputBlurHandler = e => {
+    setEnteredNameTouched(true);
+    if (enteredName.trim() === "") {
+      setEnteredNameIsValid(false);
+    }
   };
 
   const formSubmitHandler = e => {
@@ -47,6 +60,7 @@ const SimpleInput = props => {
           type="text"
           id="name"
           onChange={nameInputHandler}
+          onBlur={nameInputBlurHandler}
           value={enteredName} //bind the value to set setEnteredName to empty string
         />
       </div>
