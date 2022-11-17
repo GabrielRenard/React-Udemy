@@ -1,41 +1,33 @@
 import { useState } from "react";
+import useInputV2 from "../hooks/useInputV2";
 
 const BasicForm = props => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  // firstName
+  const {
+    value: firstName,
+    isValid: firstNameIsValid,
+    hasError: firstNameHasError,
+    inputChangeHandler: firstNameChangeHandler,
+    inputBlurHandler: firstNameBlurHandler,
+  } = useInputV2(firstName => firstName.trim() !== "");
 
-  const [firstNameIsTouched, setFirstNameIsTouched] = useState(false);
-  const [lastNameIsTouched, setLastNameIsTouched] = useState(false);
-  const [emailIsTouched, setEmailIsTouched] = useState(false);
+  // LastName
+  const {
+    value: lastName,
+    isValid: lastNameIsValid,
+    hasError: lastNameHasError,
+    inputChangeHandler: lastNameChangeHandler,
+    inputBlurHandler: lastNameBlurHandler,
+  } = useInputV2(lastName => lastName.trim() !== "");
 
-  const firstNameIsValid = firstName.trim() !== "";
-  const lastNameIsValid = lastName.trim() !== "";
-  const emailIsValid = /\S+@\S+\.\S+/.test(email);
-
-  const firstNameHasError = !firstNameIsValid && firstNameIsTouched;
-  const lastNameHasError = !lastNameIsValid && lastNameIsTouched;
-  const emailHasError = !emailIsValid && emailIsTouched;
-
-  const firstNameChangeHandler = e => {
-    setFirstName(e.target.value);
-  };
-  const lastNameChangeHandler = e => {
-    setLastName(e.target.value);
-  };
-  const emailChangeHandler = e => {
-    setEmail(e.target.value);
-  };
-
-  const firstNameBlurHandler = () => {
-    setFirstNameIsTouched(true);
-  };
-  const lastNameBlurHandler = () => {
-    setLastNameIsTouched(true);
-  };
-  const emailBlurHandler = () => {
-    setEmailIsTouched(true);
-  };
+  // Email
+  const {
+    value: email,
+    isValid: emailIsValid,
+    hasError: emailHasError,
+    inputChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+  } = useInputV2(email => /\S+@\S+\.\S+/.test(email));
 
   let formIsValid = false;
 
