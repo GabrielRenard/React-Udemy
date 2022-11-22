@@ -12,7 +12,7 @@ const useInput = checkValidity => {
     setIsEdited(true);
   };
 
-  const reset = enteredValue => {
+  const reset = () => {
     setEnteredValue("");
     setIsEdited(false);
   };
