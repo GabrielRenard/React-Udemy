@@ -1,4 +1,3 @@
-import { useRef, useState } from "react";
 import useInput from "../../hooks/useInput";
 import classes from "./Checkout.module.css";
 
@@ -8,6 +7,7 @@ const Checkout = props => {
     inputChangeHandler: nameChangeHandler,
     inputBlurHandler: nameBlurHandler,
     hasError: nameHasError,
+    reset: resetName,
   } = useInput(enteredValue => enteredValue.trim() !== "");
 
   const {
@@ -15,6 +15,7 @@ const Checkout = props => {
     inputChangeHandler: streetChangeHandler,
     inputBlurHandler: streetBlurHandler,
     hasError: streetHasError,
+    reset: resetStreet,
   } = useInput(enteredValue => enteredValue.trim() !== "");
 
   const {
@@ -22,6 +23,7 @@ const Checkout = props => {
     inputChangeHandler: cityChangeHandler,
     inputBlurHandler: cityBlurHandler,
     hasError: cityHasError,
+    reset: resetCity,
   } = useInput(enteredValue => enteredValue.trim() !== "");
 
   const {
@@ -29,55 +31,32 @@ const Checkout = props => {
     inputChangeHandler: postalCodeChangeHandler,
     inputBlurHandler: postalCodeBlurHandler,
     hasError: postalCodeHasError,
+    reset: resetPostalCode,
   } = useInput(enteredValue => enteredValue.trim().length === 5);
-
-  // const [isValid, setIsValid] = useState(true);
-
-  // const [formInputValidity, setFormInputValidity] = useState({
-  //   name: true,
-  //   street: true,
-  //   city: true,
-  //   postalCode: true,
-  // });
-
-  // Input validation
-  // const isEmpty = value => value.trim() === "";
-  // const isFiveChars = value => value.trim().length === 5;
-
-  // Capture input values
-  // const nameInputRef = useRef();
-  // const streetInputRef = useRef();
-  // const postalInputRef = useRef();
-  // const cityInputRef = useRef();
 
   // Submit form
   const confirmHandler = event => {
     event.preventDefault();
-
-    // const enteredName = nameInputRef.current.value;
-    // const enteredStreet = streetInputRef.current.value;
-    // const enteredPostal = postalInputRef.current.value;
-    // const enteredCity = cityInputRef.current.value;
-
-    // Check vailidity of captured inputs
-    // const enteredNameIsValid = !isEmpty(enteredName);
-    // const enteredStreetIsValid = !isEmpty(enteredStreet);
-    // const enteredCityIsValid = !isEmpty(enteredCity);
-    // const enteredPostalIsValid = isFiveChars(enteredPostal);
-
-    // Update formValidity state
-    // setFormInputValidity({
-    //   name: enteredNameIsValid,
-    //   street: enteredStreetIsValid,
-    //   city: enteredCityIsValid,
-    //   postalCode: enteredPostalIsValid,
-    // });
 
     const formIsValid = name && street && city && postalCode;
 
     if (!formIsValid) {
       return;
     }
+
+    props.onSubmit({
+      name,
+      street,
+      city,
+      postalCode,
+    });
+
+    console.log(name, city, street, postalCode);
+
+    resetName();
+    resetCity();
+    resetStreet();
+    resetPostalCode();
   };
 
   const nameControlClasses = `${classes.control} ${
@@ -101,6 +80,7 @@ const Checkout = props => {
           type="text"
           id="name"
           onChange={nameChangeHandler}
+          value={name}
           onBlur={nameBlurHandler}
         />
         {nameHasError && <p>Please enter a valid name</p>}
@@ -111,6 +91,7 @@ const Checkout = props => {
           type="text"
           id="street"
           onChange={streetChangeHandler}
+          value={street}
           onBlur={streetBlurHandler}
         />
         {streetHasError && <p>Please enter a valid street</p>}
@@ -121,6 +102,7 @@ const Checkout = props => {
           type="text"
           id="postal"
           onChange={postalCodeChangeHandler}
+          value={postalCode}
           onBlur={postalCodeBlurHandler}
         />
         {postalCodeHasError && (
@@ -133,6 +115,7 @@ const Checkout = props => {
           type="text"
           id="city"
           onChange={cityChangeHandler}
+          value={city}
           onBlur={cityBlurHandler}
         />
         {cityHasError && <p>Please enter a valid city</p>}

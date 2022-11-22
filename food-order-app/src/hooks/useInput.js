@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 
 const useInput = checkValidity => {
   const [enteredValue, setEnteredValue] = useState("");
@@ -12,14 +12,20 @@ const useInput = checkValidity => {
     setIsEdited(true);
   };
 
+  const reset = enteredValue => {
+    setEnteredValue("");
+    setIsEdited(false);
+  };
+
   const isValid = checkValidity(enteredValue);
   const hasError = !isValid && isEdited;
 
   return {
-    enteredValue: isValid,
+    enteredValue: enteredValue,
     inputChangeHandler,
     inputBlurHandler,
     hasError,
+    reset,
   };
 };
 

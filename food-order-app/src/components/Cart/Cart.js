@@ -21,6 +21,23 @@ const Cart = props => {
     cartCtx.addItem({ ...item, amount: 1 });
   };
 
+  const orderHandler = () => {
+    setIsCheckout(true);
+  };
+
+  const submitOrderHandler = userData => {
+    fetch(
+      "https://food-order-app-60e69-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          user: userData,
+          orderedItems: cartCtx.items,
+        }),
+      }
+    );
+  };
+
   const cartItems = (
     <ul className={classes["cart-items"]}>
       {cartCtx.items.map(item => (
@@ -40,10 +57,6 @@ const Cart = props => {
     props.onCloseCart();
   };
 
-  const orderHandler = () => {
-    setIsCheckout(true);
-  };
-
   return (
     <Modal onClick={closeCartHandler}>
       {cartItems}
@@ -52,7 +65,7 @@ const Cart = props => {
         <span>{totalAmount}</span>
       </div>
       {isCheckout ? (
-        <Checkout onCancel={props.onCloseCart} />
+        <Checkout onCancel={props.onCloseCart} onSubmit={submitOrderHandler} />
       ) : (
         <div className={classes.actions}>
           <button className={classes["button--alt"]} onClick={closeCartHandler}>
